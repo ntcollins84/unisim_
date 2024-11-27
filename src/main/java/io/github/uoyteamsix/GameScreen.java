@@ -86,7 +86,7 @@ public class GameScreen extends ScreenAdapter {
         // When game ends go to end screen
         if (gameTimer.isTimeEnded()) {
             float satisfaction = gameLogic.getSatisfaction();
-            game.setScreen(new EndScreen(game, satisfaction));
+            game.setScreen(new HighScoreScreen(game, satisfaction));
         }
     }
 

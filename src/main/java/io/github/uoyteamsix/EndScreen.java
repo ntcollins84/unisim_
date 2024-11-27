@@ -33,9 +33,9 @@ public class EndScreen extends ScreenAdapter {
     Preferences highScores;
     Stage stage;
 
-    public EndScreen(UniSimGame game, float satisfaction) {
+    public EndScreen(UniSimGame game, int score) {
         this.game = game;
-        this.score = (int) (satisfaction * 100);
+        this.score = score;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
@@ -61,23 +61,33 @@ public class EndScreen extends ScreenAdapter {
         // Get highscores
         highScores = Gdx.app.getPreferences("High Scores");
 
-        // Check if and where player's score should be placed on the leaderboard
+       /* // Check if and where player's score should be placed on the leaderboard
         for (int i = 0; i < 5; i++) {
             if (highScores.getInteger(String.valueOf(i), 0) < score) {
                 insertScore(score, i);
                 break;
             }
-        }
+        }*/
 
         // Create display
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
         //table.setDebug(true);
+
         table.add(createGameOverMessage()).top().padBottom(200);
         table.row();
         table.add(createLeaderboard()).bottom();
         table.row();
+
+        /*for (String key : highScores.get().keySet()) {
+            System.out.println(key);
+            if (key.contains("score")) {
+                System.out.println(highScores.getInteger(key));
+            } else if (key.contains("name")) {
+                System.out.println(highScores.getString(key));
+            }
+        }*/
     }
 
     @Override
@@ -111,31 +121,14 @@ public class EndScreen extends ScreenAdapter {
     }
 
     /**
-     * Inserts a player's score into the leaderboard
-     * Only checks through top 5
-     *
-     * @param score the player's score
-     * @param pos the place the score is being inserted to
-     */
-    public void insertScore(int score, int pos) {
-        int prevScore;
-        for (int i = pos; i < 5; i++) {
-            String key = String.valueOf(i);
-            prevScore = highScores.getInteger(key, 0);
-            highScores.putInteger(key, score);
-            highScores.flush();
-            score = prevScore;
-            if (score == 0) { break; }
-        }
-    }
-
-    /**
      * @return a display with a "game over" message and the player's score
      */
     public Table createGameOverMessage() {
         Table gameOver = new Table();
+
         var labelStyleBig = new Label.LabelStyle(fontBig, Color.BLACK);
         var labelStyleSmall = new Label.LabelStyle(fontSmall, Color.BLACK);
+
         gameOver.add(new Label("Game Over", labelStyleBig));
         gameOver.row();
         gameOver.add(new Label("Score: " + score + "%", labelStyleSmall));
@@ -148,27 +141,22 @@ public class EndScreen extends ScreenAdapter {
      */
     public Table createLeaderboard() {
         Table leaderboard = new Table();
+
         var labelStyle = new Label.LabelStyle(fontSmall, Color.BLACK);
+
         for (int i = 0; i < 5; i++) {
             String key = String.valueOf(i);
-            int score = highScores.getInteger(key, 0);
+            String name = highScores.getString(key + "name", "");
+            int score = highScores.getInteger(key + "score", 0);
             String scoreLabelText = score == 0 ? "" : score + "%";
             Label numberLabel = new Label((i + 1) + ".", labelStyle);
+            Label nameLabel = new Label(name, labelStyle);
             Label scoreLabel = new Label(scoreLabelText, labelStyle);
-            leaderboard.add(numberLabel).left().padRight(500);
+            leaderboard.add(numberLabel).left().padRight(200);
+            leaderboard.add(nameLabel).center().padRight(200);
             leaderboard.add(scoreLabel).right();
             leaderboard.row();
         }
         return leaderboard;
     }
-
-    /*
-    TODO: Leaderboard functionality
-    Display:
-    - "Submit score to leaderboard" area
-    - Make it look the same no matter the screen size
-
-    Function:
-    - Textbox to enter name
-     */
 }
