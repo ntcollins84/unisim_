@@ -75,4 +75,8 @@ public class UniSimGame extends Game {
         // Create an application using the LWJGL3 (desktop) backend.
         new Lwjgl3Application(new UniSimGame(), config);
     }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
 }

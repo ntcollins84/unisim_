@@ -27,7 +27,7 @@ public class GameScreen extends ScreenAdapter {
     private GameMap map;
     private GameMapInput mapInput;
     private MapRenderer mapRenderer;
-    private final GameTimer gameTimer;
+    private GameTimer gameTimer;
 
     public GameScreen(UniSimGame game, AssetManager assetManager, CursorManager cursorManager) {
         this.game = game;
@@ -156,5 +156,11 @@ public class GameScreen extends ScreenAdapter {
     public void hide() {
         batch.dispose();
         uiStage.dispose();
+    }
+
+
+    //----------Methods for Testing----------
+    public GameTimer getGameTimer(){
+        return gameTimer;
     }
 }
