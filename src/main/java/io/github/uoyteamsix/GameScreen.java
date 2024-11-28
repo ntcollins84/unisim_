@@ -17,6 +17,7 @@ import io.github.uoyteamsix.ui.UiStage;
  * A class representing the main gameplay screen.
  */
 public class GameScreen extends ScreenAdapter {
+    private final UniSimGame game;
     private final AssetManager assetManager;
     private final CursorManager cursorManager;
     private final SpriteBatch batch;
@@ -28,7 +29,8 @@ public class GameScreen extends ScreenAdapter {
     private MapRenderer mapRenderer;
     private final GameTimer gameTimer;
 
-    public GameScreen(AssetManager assetManager, CursorManager cursorManager) {
+    public GameScreen(UniSimGame game, AssetManager assetManager, CursorManager cursorManager) {
+        this.game = game;
         this.assetManager = assetManager;
         this.cursorManager = cursorManager;
         batch = new SpriteBatch();
@@ -80,6 +82,12 @@ public class GameScreen extends ScreenAdapter {
 
         // Render the UI last.
         uiStage.draw();
+
+        // When game ends go to end screen
+        if (gameTimer.isTimeEnded()) {
+            float satisfaction = gameLogic.getSatisfaction();
+            game.setScreen(new HighScoreScreen(game, satisfaction));
+        }
     }
 
     /**
@@ -143,8 +151,9 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
     }
 
+    // Disposal of assets moved to hide method
     @Override
-    public void dispose() {
+    public void hide() {
         batch.dispose();
         uiStage.dispose();
     }

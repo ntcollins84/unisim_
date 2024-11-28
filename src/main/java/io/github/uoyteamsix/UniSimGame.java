@@ -32,7 +32,7 @@ public class UniSimGame extends Game {
         cursorManager = new CursorManager(assetManager);
 
         // Create all of our screens.
-        gameScreen = new GameScreen(assetManager, cursorManager);
+        gameScreen = new GameScreen(this, assetManager, cursorManager);
 
         // Go straight to the main game screen.
         setScreen(gameScreen);
