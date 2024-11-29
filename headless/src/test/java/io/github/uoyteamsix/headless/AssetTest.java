@@ -1,8 +1,10 @@
+package io.github.uoyteamsix.headless;
+
 import org.junit.jupiter.api.Test;
 
-public class BuildingPlacementTest {
+public class AssetTest {
     @Test
-    public void TestPlaceAccommodation(){
+    public void TestPlaceholder(){
 
     }
 }
