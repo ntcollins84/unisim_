@@ -51,4 +51,14 @@ public class GameTimer {
      * @return amount of time left
      */
     public float getTimeLeft() { return timeLeft; }
+
+    //----------Methods for testing----------
+
+    /**
+     * Decreases the time left by a set amount, to speed up testing
+     * @param amount The number of seconds to decrease the time by
+     */
+    public void decreaseTimeLeft(float amount) {
+        this.timeLeft -= amount;
+    }
 }

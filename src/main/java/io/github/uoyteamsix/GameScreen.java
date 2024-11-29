@@ -27,7 +27,7 @@ public class GameScreen extends ScreenAdapter {
     private GameMap map;
     private GameMapInput mapInput;
     private MapRenderer mapRenderer;
-    private GameTimer gameTimer;
+    private final GameTimer gameTimer;
 
     public GameScreen(UniSimGame game, AssetManager assetManager, CursorManager cursorManager) {
         this.game = game;
