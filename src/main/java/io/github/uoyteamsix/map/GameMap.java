@@ -16,8 +16,8 @@ public class GameMap {
     private final TiledMap tiledMap;
     private final TiledMapTileLayer buildingLayer;
 
-    private final int width;
-    private final int height;
+    private final int mapWidth;
+    private final int mapHeight;
     private final int widthPx;
     private final int heightPx;
     private final int tileWidthPx;
@@ -31,28 +31,17 @@ public class GameMap {
         this.tiledMap = tiledMap;
         buildingLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Buildings");
 
-        width = buildingLayer.getWidth();
-        height = buildingLayer.getHeight();
+        // map dimensions are in tiles
+        mapWidth = buildingLayer.getWidth();
+        mapHeight = buildingLayer.getHeight();
         tileWidthPx = buildingLayer.getTileWidth();
         tileHeightPx = buildingLayer.getTileHeight();
-        widthPx = width * tileWidthPx;
-        heightPx = height * tileHeightPx;
+        widthPx = mapWidth * tileWidthPx;
+        heightPx = mapHeight * tileHeightPx;
 
         // Compute which tiles are allowed to be placed on.
-        usableTiles = new boolean[width][height];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                usableTiles[x][y] = true;
-                for (var layer : tiledMap.getLayers()) {
-                    if (layer.getName().equals("Terrain")) {
-                        continue;
-                    }
-                    if (((TiledMapTileLayer) layer).getCell(x, y) != null) {
-                        usableTiles[x][y] = false;
-                    }
-                }
-            }
-        }
+        usableTiles = new boolean[mapWidth][mapHeight];
+        updateUsableTiles();
 
         // Create building types for each prefab layer in the map.
         availablePrefabs = new ArrayList<>();
@@ -88,7 +77,7 @@ public class GameMap {
                 int mapY = y + prefabY;
 
                 // Check out of bounds.
-                if (mapX < 0 || mapY < 0 || mapX >= width || mapY >= height) {
+                if (mapX < 0 || mapY < 0 || mapX >= mapWidth || mapY >= mapHeight) {
                     return false;
                 }
 
@@ -123,7 +112,7 @@ public class GameMap {
         placedBuildings.add(new Building(prefab, x, y));
     }
 
-    /**
+    /** NEW METHOD
      * Removes a building from the map.
      * @param tileX the x-coordinate in tiles
      * @param tileY the y-coordinate in tiles
@@ -134,6 +123,8 @@ public class GameMap {
             return;
         }
         eraseBuildingFromMap(building);
+        placedBuildings.remove(building);
+        updateUsableTiles();
     }
 
     /** NEW METHOD
@@ -194,14 +185,14 @@ public class GameMap {
      * @return the width of the map in tiles
      */
     public int getWidth() {
-        return width;
+        return mapWidth;
     }
 
     /**
      * @return the height of the map in tiles
      */
     public int getHeight() {
-        return height;
+        return mapHeight;
     }
 
     /**
@@ -305,6 +296,7 @@ public class GameMap {
         for (int x = buildingX; x < buildingX + buildingWidth; x++) {
             for (int y = 0; y < buildingY + buildingHeight; y++) {
                 setTileToNull(x, y);
+                usableTiles[x][y] = false;
             }
         }
     }
@@ -316,5 +308,24 @@ public class GameMap {
      */
     private void setTileToNull(int tileX, int tileY) {
         buildingLayer.setCell(tileX, tileY, null);
+    }
+
+    /** NEW METHOD
+     * Updates the 2D array of usable tiles to show which ones are free or not.
+     */
+    private void updateUsableTiles() {
+        for (int x = 0; x < mapWidth; x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                usableTiles[x][y] = true;
+                for (var layer : tiledMap.getLayers()) {
+                    if (layer.getName().equals("Terrain")) {
+                        continue;
+                    }
+                    if (((TiledMapTileLayer) layer).getCell(x, y) != null) {
+                        usableTiles[x][y] = false;
+                    }
+                }
+            }
+        }
     }
 }
