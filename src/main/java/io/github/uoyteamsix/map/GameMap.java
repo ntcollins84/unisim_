@@ -1,6 +1,8 @@
 package io.github.uoyteamsix.map;
 
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
@@ -117,7 +119,45 @@ public class GameMap {
                 usableTiles[mapX][mapY] = false;
             }
         }
+        // CHANGED CODE
         placedBuildings.add(new Building(prefab, x, y));
+    }
+
+    /**
+     * Removes a building from the map.
+     * @param tileX the x-coordinate in tiles
+     * @param tileY the y-coordinate in tiles
+     */
+    public void deleteBuilding(int tileX, int tileY) {
+        Building building = getSelectedBuilding(tileX, tileY);
+        if (building == null) {
+            return;
+        }
+        eraseBuildingFromMap(building);
+    }
+
+    /** NEW METHOD
+     * Checks whether the tile clicked is a building tile.
+     * @param tileX the x-coordinate of the tile.
+     * @param tileY the y-coordinate of the tile.
+     * @return true if the tile is a building tile, false otherwise.
+     */
+    public boolean isBuildingClicked(int tileX, int tileY) {
+        MapProperties properties = getMapProperties(tileX, tileY);
+        return properties != null;
+    }
+
+    /** NEW METHOD
+     * @param tileX the x-coordinate of the tile.
+     * @param tileY the y-coordinate of the tile.
+     * @return the name of the building e.g Canteen, Accommodation
+     */
+    public String getBuildingName(int tileX, int tileY) {
+        MapProperties properties = getMapProperties(tileX, tileY);
+        if (properties == null) {
+            return null;
+        }
+        return properties.get("PrefabName").toString();
     }
 
     /**
@@ -197,5 +237,84 @@ public class GameMap {
      */
     public List<BuildingPrefab> getAvailablePrefabs() {
         return availablePrefabs;
+    }
+
+    /** NEW METHOD
+     * @param tileX the x-coordinate of the selected tile
+     * @param tileY the y-coordinate of the selected tile
+     * @return key-value pairings of the property type and its name.
+     */
+    private MapProperties getMapProperties(int tileX, int tileY) {
+        TiledMapTileLayer.Cell cell = buildingLayer.getCell(tileX, tileY);
+        if (cell == null) {
+            return null;
+        }
+        TiledMapTile tile = cell.getTile();
+        return tile.getProperties();
+    }
+
+    /** NEW METHOD
+     * Gets the Building object of the selected placed building
+     * @param tileX x-coordinate of the tile.
+     * @param tileY y-coordinate of the tile.
+     */
+    private Building getSelectedBuilding(int tileX, int tileY) {
+        for (Building building : placedBuildings) {
+            if (isClickContainedInBuilding(building, tileX, tileY)) {
+                System.out.println("Building found.");
+                return building;
+            }
+        }
+        return null;
+    }
+
+    /** NEW METHOD
+     * Checks which building the tile that has been clicked belongs to.
+     * @param building the building object
+     * @param tileX x-coordinate of the tile in tiles.
+     * @param tileY y-coordinate of the tile in tiles.
+     * @return true if the tile is contained within the current building, false
+     *         otherwise.
+     */
+    private boolean isClickContainedInBuilding(Building building , int tileX, int tileY) {
+        BuildingPrefab prefab = building.getPrefab();
+        int width = prefab.getWidth();
+        int height = prefab.getHeight();
+        int tilePosX = building.getX();
+        int tilePosY = building.getY();
+        // Iterate through all tiles of the building
+        for (int x = tilePosX; x < tilePosX + width; x++) {
+            for (int y = tilePosY; y < tilePosY + height; y++) {
+                if (x == tileX && y == tileY) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** NEW METHOD
+     * Deletes all the clicked building's tiles from the buildingLayer.
+     * @param building the building object to be erased.
+     */
+    private void eraseBuildingFromMap(Building building) {
+        int buildingX = building.getX();
+        int buildingY = building.getY();
+        int buildingWidth = building.getPrefab().getWidth();
+        int buildingHeight = building.getPrefab().getHeight();
+        for (int x = buildingX; x < buildingX + buildingWidth; x++) {
+            for (int y = 0; y < buildingY + buildingHeight; y++) {
+                setTileToNull(x, y);
+            }
+        }
+    }
+
+    /** NEW METHOD
+     * Deletes the selected tile
+     * @param tileX x-coordinate in tiles
+     * @param tileY y-coordinate in tiles
+     */
+    private void setTileToNull(int tileX, int tileY) {
+        buildingLayer.setCell(tileX, tileY, null);
     }
 }

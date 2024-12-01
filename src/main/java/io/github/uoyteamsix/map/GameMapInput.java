@@ -77,6 +77,9 @@ public class GameMapInput extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(gameTimer.isPaused()) { // NEW CODE
+            return true;
+        }
         var prefab = gameLogic.getSelectedPrefab();
         if (button == Input.Buttons.LEFT && selectedTileX >= 0 && selectedTileY >= 0 && prefab != null) {
             int placementX = getPlacementTileX();
@@ -87,6 +90,12 @@ public class GameMapInput extends InputAdapter {
                 // Deselect prefab after successfully placing a building.
                 gameLogic.setSelectedPrefabIndex(-1);
             }
+            return true;
+        }
+        // NEW CODE BELOW
+        if (map.isBuildingClicked(selectedTileX, selectedTileY)) {
+            map.deleteBuilding(selectedTileX, selectedTileY);
+            return true;
         }
         return true;
     }
