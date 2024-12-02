@@ -293,8 +293,9 @@ public class GameMap {
         int buildingY = building.getY();
         int buildingWidth = building.getPrefab().getWidth();
         int buildingHeight = building.getPrefab().getHeight();
+        System.out.println(buildingWidth + " " + buildingHeight);
         for (int x = buildingX; x < buildingX + buildingWidth; x++) {
-            for (int y = 0; y < buildingY + buildingHeight; y++) {
+            for (int y = buildingY; y < buildingY + buildingHeight; y++) {
                 setTileToNull(x, y);
                 usableTiles[x][y] = false;
             }
