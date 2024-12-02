@@ -138,37 +138,18 @@ public class GameLogic {
 
         // Other ingame timers now rely on GameTimer
         if (!gameTimer.isPaused()) {
-            nextBuildingTime -= deltaTime;
-            if (nextBuildingTime < 0.0f) {
-                // User can place another building.
-                maximumAllowedBuildings++;
-                nextBuildingTime = BUILDING_TIME;
-            }
+            updateNextBuildingTime(deltaTime);
 
             // Update satisfaction.
             updateSatisfaction(deltaTime);
 
             // Update event timer
             if (currentEvent != null) {
-                currentEvent.timer.updateTime(deltaTime);
-                // Check if event has ended
-                if (currentEvent.timer.isTimeEnded()) {
-                    currentEvent = null;
-                }
+                updateEventTimer(deltaTime);
             }
             // If no event active
             else {
-                // Generate a random number every 2 seconds to see if we should start an event. Bias the random number slightly
-                // to prevent events from happening to close to each other.
-                nextEventProbability += deltaTime * 0.01f;
-                checkEventTimer += deltaTime;
-                if (checkEventTimer > 2.0f) {
-                    checkEventTimer = 0.0f;
-                    if (Math.min(MathUtils.random() + 0.1f, 1.0f) < nextEventProbability) {
-                        nextEventProbability = 0;
-                        currentEvent = new GameEvent();
-                    }
-                };
+                generateRandomNumber(deltaTime);
             }
         }
     }
@@ -220,4 +201,45 @@ public class GameLogic {
     public GameEvent getCurrentEvent() { return currentEvent; }
 
     public float getEventDurationTimer() { return eventDurationTimer;}
+
+    /**
+     * Updates the time left until you can place another building.
+     * @param deltaTime the time between in each frame.
+     */
+    private void updateNextBuildingTime(float deltaTime) {
+        nextBuildingTime -= deltaTime;
+        if (nextBuildingTime < 0.0f) {
+            // User can place another building.
+            maximumAllowedBuildings++;
+            nextBuildingTime = BUILDING_TIME;
+        }
+    }
+
+    /**
+     * Updates the event timer until the event has ended.
+     * @param deltaTime the time between each frame.
+     */
+    private void updateEventTimer(float deltaTime) {
+        currentEvent.timer.updateTime(deltaTime);
+        // Check if event has ended
+        if (currentEvent.timer.isTimeEnded()) {
+            currentEvent = null;
+        }
+    }
+
+    /**
+     * Generates a random number every 2 seconds to decide whether an event should start.
+     * @param deltaTime the time between each frame.
+     */
+    private void generateRandomNumber(float deltaTime) {
+        nextEventProbability += deltaTime * 0.01f;
+        checkEventTimer += deltaTime;
+        if (checkEventTimer > 2.0f) {
+            checkEventTimer = 0.0f;
+            if (Math.min(MathUtils.random() + 0.1f, 1.0f) < nextEventProbability) {
+                nextEventProbability = 0;
+                currentEvent = new GameEvent();
+            }
+        }
+    }
 }
