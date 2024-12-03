@@ -87,6 +87,12 @@ public class GameMapInput extends InputAdapter {
                 // Deselect prefab after successfully placing a building.
                 gameLogic.setSelectedPrefabIndex(-1);
             }
+            return true;
+        }
+        // NEW CODE BELOW
+        if (map.isBuildingClicked(selectedTileX, selectedTileY)) {
+            map.deleteBuilding(selectedTileX, selectedTileY);
+            return true;
         }
         return true;
     }
