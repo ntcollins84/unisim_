@@ -19,7 +19,6 @@ public class UniSimGame extends Game {
     private AssetManager assetManager;
     private CursorManager cursorManager;
     private GameScreen gameScreen;
-    private SpriteBatch batch;
 
     @Override
     public void create() {
@@ -32,7 +31,7 @@ public class UniSimGame extends Game {
         assetManager.load("maps/map.tmx", TiledMap.class);
 
         cursorManager = new CursorManager(assetManager);
-        batch = new SpriteBatch();
+        SpriteBatch batch = new SpriteBatch();
 
         // Create all of our screens.
         gameScreen = new GameScreen(this, assetManager, cursorManager, batch);
