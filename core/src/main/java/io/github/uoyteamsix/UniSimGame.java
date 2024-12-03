@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -18,6 +19,7 @@ public class UniSimGame extends Game {
     private AssetManager assetManager;
     private CursorManager cursorManager;
     private GameScreen gameScreen;
+    private SpriteBatch batch;
 
     @Override
     public void create() {
@@ -30,9 +32,10 @@ public class UniSimGame extends Game {
         assetManager.load("maps/map.tmx", TiledMap.class);
 
         cursorManager = new CursorManager(assetManager);
+        batch = new SpriteBatch();
 
         // Create all of our screens.
-        gameScreen = new GameScreen(this, assetManager, cursorManager);
+        gameScreen = new GameScreen(this, assetManager, cursorManager, batch);
 
         // Go straight to the main game screen.
         setScreen(gameScreen);

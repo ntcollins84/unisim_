@@ -20,7 +20,7 @@ public class GameScreen extends ScreenAdapter {
     private final UniSimGame game;
     private final AssetManager assetManager;
     private final CursorManager cursorManager;
-    private final SpriteBatch batch;
+    private SpriteBatch batch;
     private final CameraController cameraController;
     private final GameLogic gameLogic;
     private final UiStage uiStage;
@@ -29,11 +29,11 @@ public class GameScreen extends ScreenAdapter {
     private MapRenderer mapRenderer;
     private GameTimer gameTimer;
 
-    public GameScreen(UniSimGame game, AssetManager assetManager, CursorManager cursorManager) {
+    public GameScreen(UniSimGame game, AssetManager assetManager, CursorManager cursorManager, SpriteBatch batch) {
         this.game = game;
         this.assetManager = assetManager;
         this.cursorManager = cursorManager;
-        batch = new SpriteBatch();
+        this.batch = batch;
         cameraController = new CameraController();
         gameTimer = new GameTimer(300f, true);
         gameLogic = new GameLogic(gameTimer);
