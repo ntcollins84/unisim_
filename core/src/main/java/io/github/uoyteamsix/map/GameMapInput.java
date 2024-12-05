@@ -91,8 +91,11 @@ public class GameMapInput extends InputAdapter {
         }
         // NEW CODE BELOW
         if (map.isBuildingClicked(selectedTileX, selectedTileY)) {
-            map.deleteBuilding(selectedTileX, selectedTileY);
-            return true;
+            if (gameLogic.getCurrentEvent() != null && gameLogic.getCurrentEvent().canDeleteBuilding()) {
+                map.deleteBuilding(selectedTileX, selectedTileY);
+                gameLogic.setCurrentEvent(null);
+                return true;
+            }
         }
         return true;
     }
