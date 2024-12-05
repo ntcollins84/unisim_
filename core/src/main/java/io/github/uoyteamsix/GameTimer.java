@@ -1,6 +1,7 @@
 package io.github.uoyteamsix;
 
 /**
+ * NEW CLASS
  * A class to track the time remaining in the game or in an event
  * Replaces timer variable in GameLogic
  */

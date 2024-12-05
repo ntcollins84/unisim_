@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * NEW CLASS
  * A class representing an ingame event
  * Updated from the enum GameEvent
  */

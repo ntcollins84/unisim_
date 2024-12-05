@@ -33,6 +33,7 @@ public class TimerDisplay extends Table {
         super.act(delta);
 
         // Convert time in seconds to minutes and seconds.
+        // Now uses GameTimer class
         float remainingTime = gameTimer.getTimeLeft();
         int minutes = (int) (remainingTime / 60.0f);
         int seconds = ((int) remainingTime) % 60;
