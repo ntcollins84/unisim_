@@ -34,9 +34,13 @@ public class UiStage extends Stage {
         topLeftTable.row();
         topLeftTable.add(new CurrentEventBox(assets, gameLogic)).padTop(16.0f);
 
+
         // Create the building toolbar anchored to the bottom center.
         var buildingToolbar = new BuildingToolbar(assets, gameLogic);
-        mainTable.add(topLeftTable).expand().top().left().padLeft(25.0f);
+        var helpInfoDisplay = new HelpInfoDisplay(assets, gameLogic);
+        mainTable.add(topLeftTable).top().left().padLeft(25.0f);
+        mainTable.row();
+        mainTable.add(helpInfoDisplay).expand().top().center();
         mainTable.row();
         mainTable.add(buildingToolbar).bottom().center().padBottom(5.0f);
     }

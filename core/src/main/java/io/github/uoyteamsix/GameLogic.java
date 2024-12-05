@@ -168,7 +168,7 @@ public class GameLogic {
                         nextEventProbability = 0;
                         currentEvent = new GameEvent();
                     }
-                };
+                }
             }
         }
     }
@@ -201,6 +201,10 @@ public class GameLogic {
             return null;
         }
         return gameMap.getAvailablePrefabs().get(selectedPrefabIndex);
+    }
+
+    public GameTimer getGameTimer() {
+        return gameTimer;
     }
 
     public GameMap getGameMap() {

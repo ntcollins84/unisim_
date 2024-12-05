@@ -56,6 +56,10 @@ public class BuildingToolbar extends Stack {
                 image.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        // NEW IF-STATEMENT
+                        if (gameLogic.getGameTimer().isPaused()) {
+                            return;
+                        }
                         gameLogic.setSelectedPrefabIndex(index);
                     }
                 });

@@ -78,26 +78,6 @@ public class CurrentEventBox extends Table {
                 descriptionLabel.setText("");
                 timeLabel.setText("");
             }
-            /*switch (gameLogic.getCurrentEvent()) {
-                case NONE:
-                    eventLabel.setText("Event: None");
-                    descriptionLabel.setText("");
-                    timeLabel.setText("");
-                    break;
-                case RAIN:
-                    eventLabel.setText("Event: Rain");
-                    descriptionLabel.setText("Satisfaction -");
-                    break;
-                case ROSES:
-                    eventLabel.setText("Event: Roses");
-                    descriptionLabel.setText("Satisfaction +");
-                    break;
-                case STRIKE:
-                    eventLabel.setText("Event: Strike");
-                    descriptionLabel.setText("Study -");
-                    break;
-            }*/
-
         }
     }
 }
