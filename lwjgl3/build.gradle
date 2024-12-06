@@ -131,7 +131,7 @@ tasks.test {
   useJUnitPlatform()
   maxParallelForks = 1
   forkEvery = 1
-  jvmArgs = ["-DtestMode=true", "-XstartOnFirstThread"]
+  jvmArgs = ["-DtestMode=true"/*, "-XstartOnFirstThread"*/]
   testLogging {
     events "passed", "failed", "skipped"
   }
