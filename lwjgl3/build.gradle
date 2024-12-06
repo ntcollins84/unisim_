@@ -131,11 +131,7 @@ tasks.test {
   useJUnitPlatform()
   maxParallelForks = 1
   forkEvery = 1
-  jvmArgs = ["-DtestMode=true"]
-  def isMacOs = System.getProperty("os.name").toLowerCase().contains("mac")
-  if (isMacOs) {
-    jvmArgs += "-XstartOnFirstThread"
-  }
+  jvmArgs = ["-DtestMode=true"/*, "-XstartOnFirstThread"*/]
   testLogging {
     events "passed", "failed", "skipped"
   }

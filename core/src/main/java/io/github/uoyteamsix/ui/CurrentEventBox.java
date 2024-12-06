@@ -54,6 +54,7 @@ public class CurrentEventBox extends Table {
             add(timeLabel).align(Align.left).padLeft(12.0f).padTop(-44.0f);
         }
 
+        // NEW CODE BELOW
         if (eventLabel != null) {
             // Get current event
             GameEvent currentEvent = gameLogic.getCurrentEvent();

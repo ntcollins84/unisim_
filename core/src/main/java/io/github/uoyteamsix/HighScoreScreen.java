@@ -23,9 +23,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Objects;
 
 /**
+ * NEW CLASS
  * A class representing a high score screen
  * Displays a text input for the player's name
- * New addition
  */
 public class HighScoreScreen extends ScreenAdapter {
     private final UniSimGame game;

@@ -17,9 +17,9 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
+ * NEW CLASS
  * A class representing the end screen
  * Displays the player's final score and a leaderboard of the top 5 scores
- * New addition
  */
 public class EndScreen extends ScreenAdapter {
     private final UniSimGame game;

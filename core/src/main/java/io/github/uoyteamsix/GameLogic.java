@@ -203,6 +203,15 @@ public class GameLogic {
         return gameMap.getAvailablePrefabs().get(selectedPrefabIndex);
     }
 
+    /**
+     * NEW METHOD
+     *
+     * @param currentEvent the event the game should be set to
+     */
+    public void setCurrentEvent(GameEvent currentEvent) {
+        this.currentEvent = currentEvent;
+    }
+
     public GameTimer getGameTimer() {
         return gameTimer;
     }
