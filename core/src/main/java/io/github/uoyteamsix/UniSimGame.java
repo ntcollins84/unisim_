@@ -81,4 +81,13 @@ public class UniSimGame extends Game {
     public GameScreen getGameScreen() {
         return gameScreen;
     }
+
+    // Methods for testing
+
+    public AssetManager getAssetManager() {  return assetManager;  }
+
+    public CursorManager getCursorManager() {
+        return cursorManager;
+    }
+
 }

@@ -163,4 +163,48 @@ public class GameScreen extends ScreenAdapter {
     public GameTimer getGameTimer(){
         return gameTimer;
     }
+
+    public MapRenderer getMapRenderer() {
+        return mapRenderer;
+    }
+
+    public GameMapInput getMapInput() {
+        return mapInput;
+    }
+
+    public GameMap getMap() {
+        return map;
+    }
+
+    public UiStage getUiStage() {
+        return uiStage;
+    }
+
+    public GameLogic getGameLogic() {
+        return gameLogic;
+    }
+
+    public CameraController getCameraController() {
+        return cameraController;
+    }
+
+    public GameTimer getGameTimer(){
+        return gameTimer;
+    }
+
+    public UniSimGame getGame() {
+        return game;
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public CursorManager getCursorManager() {
+        return cursorManager;
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return batch;
+    }
 }

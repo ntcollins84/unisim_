@@ -37,7 +37,4 @@ public class GamePauseTest {
         timer.pauseTime();
         assertTrue(timer.isPaused(), "Reusing the pause method should not resume the game");
     }
-
-    @Test
-    public void Test(){}
 }
