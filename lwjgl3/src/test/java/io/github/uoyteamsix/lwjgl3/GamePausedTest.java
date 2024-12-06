@@ -19,8 +19,6 @@ public class GamePausedTest {
     @BeforeEach
     public void setUp() {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        //config.setTitle("Test"); // Optional window configuration
-        //config.setWindowedMode(1, 1); // Minimal window size for testing
 
         new Lwjgl3Application(new ApplicationAdapter() {
             @Override
@@ -31,7 +29,6 @@ public class GamePausedTest {
                 timer = screen.getGameTimer();
             }
         }, config);
-
     }
 
     @Test

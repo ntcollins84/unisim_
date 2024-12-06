@@ -1,10 +1,27 @@
-package io.github.uoyteamsix.headless;
+package io.github.uoyteamsix.lwjgl3;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import io.github.uoyteamsix.GameScreen;
+import io.github.uoyteamsix.GameTimer;
+import io.github.uoyteamsix.UniSimGame;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 public class TimeTest {
+    GameTimer timer;
+
     @BeforeEach
     public void setUp() {
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         UniSimGame game = new UniSimGame();
         game.create();
         GameScreen screen = game.getGameScreen();

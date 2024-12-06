@@ -37,6 +37,7 @@ public class UiStage extends Stage {
 
         // Create the building toolbar anchored to the bottom center.
         var buildingToolbar = new BuildingToolbar(assets, gameLogic);
+        // Create the information display anchored to the center.
         var helpInfoDisplay = new HelpInfoDisplay(assets, gameLogic);
         mainTable.add(topLeftTable).top().left().padLeft(25.0f);
         mainTable.row();

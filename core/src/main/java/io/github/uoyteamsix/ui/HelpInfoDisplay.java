@@ -48,7 +48,7 @@ public class HelpInfoDisplay extends Table {
 
         // Populate table with image and labels.
         if (getChildren().isEmpty() && helpText != null && boxImage != null) {
-            add(boxImage).size(64.0f * 10.0f, 32.0f * 10.0f);
+            add(boxImage).size(64.0f * 12.0f, 32.0f * 12.0f);
             addLabelsToTable(this);
         }
 
@@ -75,9 +75,9 @@ public class HelpInfoDisplay extends Table {
      * @return an array of String objects corresponding to each line of text.
      */
     private String[] generateTextLines() {
-        String line1 = "Welcome to UniSim, where you must place your buildings";
-        String line2 = "strategically and react to campus events accordingly to";
-        String line3 = "get the highest student satisfaction possible.";
+        String line1 = "Welcome to UniSim, where you must place your buildings strategically";
+        String line2 = "and react to campus events accordingly to get the highest student";
+        String line3 = "satisfaction possible.";
         String line4 = "";
         String line5 = "Think carefully when placing your buildings as you cannot";
         String line6 = "change your mind once placed. Best of luck!";
@@ -85,8 +85,10 @@ public class HelpInfoDisplay extends Table {
         String line8 = "How to play:";
         String line9 = "    - Press 'P' to pause/unpause game";
         String line10 = "    - Press keys '1' to '5' to select/deselect buildings";
-        return new String[]{line1, line2, line3, line4, line5,
-                            line6, line7, line8, line9, line10,};
+        String line11 = "    - Scroll to zoom in/out";
+        String line12 = "    - 'WASD' or hold 'left mouse click' to navigate the map";
+        return new String[]{line1, line2, line3, line4, line5, line6,
+                            line7, line8, line9, line10, line11, line12};
     }
 
     /**
@@ -94,7 +96,7 @@ public class HelpInfoDisplay extends Table {
      * @param table the table that stores the text.
      */
     private void addLabelsToTable(Table table) {
-        float topPadding = -555.0f;
+        float topPadding = -655.0f;
         for (Label label : helpText) {
             table.row();
             table.add(label).align(Align.left).padLeft(32.0f).padTop(topPadding);

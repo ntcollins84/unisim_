@@ -188,10 +188,6 @@ public class GameScreen extends ScreenAdapter {
         return cameraController;
     }
 
-    public GameTimer getGameTimer(){
-        return gameTimer;
-    }
-
     public UniSimGame getGame() {
         return game;
     }
