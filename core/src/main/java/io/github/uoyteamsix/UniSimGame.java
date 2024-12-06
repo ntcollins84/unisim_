@@ -46,7 +46,6 @@ public class UniSimGame extends Game {
         // per second.
         if (!assetManager.update(17)) {
             // Returned false so we are still loading assets.
-            // TODO: Display some kind of loading screen?
             return;
         }
 

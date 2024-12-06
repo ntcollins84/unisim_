@@ -14,13 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GamePausedTest {
+    Lwjgl3Application app;
     GameTimer timer;
 
     @BeforeEach
     public void setUp() {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-        new Lwjgl3Application(new ApplicationAdapter() {
+        app = new Lwjgl3Application(new ApplicationAdapter() {
             @Override
             public void create() {
                 UniSimGame game = new UniSimGame();

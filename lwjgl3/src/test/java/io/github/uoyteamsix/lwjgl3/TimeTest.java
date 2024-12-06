@@ -16,13 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TimeTest {
+    Lwjgl3Application app;
     GameTimer timer;
 
     @BeforeEach
     public void setUp() {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-        new Lwjgl3Application(new ApplicationAdapter() {
+        app = new Lwjgl3Application(new ApplicationAdapter() {
             @Override
             public void create() {
                 UniSimGame game = new UniSimGame();
@@ -38,7 +39,7 @@ public class TimeTest {
         int start_time = (int) timer.getTimeLeft();
         TimeUnit.SECONDS.sleep(1);
         int current_time = (int) timer.getTimeLeft();
-        assertEquals(current_time, start_time -1, "Start time should decrease by 1 each second");
+        assertEquals(start_time - 1, current_time, "Start time should decrease by 1 each second");
     }
 
     @Test
@@ -48,6 +49,7 @@ public class TimeTest {
 
     @Test
     public void TestTimeEndsAfter5Minutes() {
+        timer.resumeTime();
         timer.updateTime(300);
         assertTrue(timer.isTimeEnded(), "The time should end after 5 minutes");
     }

@@ -15,6 +15,13 @@ plugins {
   id "application"
 }
 
+sourceSets {
+  main {
+    resources {
+      srcDir 'assets'  // Make sure to include the assets folder in the desktop runtime
+    }
+  }
+}
 
 import io.github.fourlastor.construo.Target
 
@@ -128,6 +135,20 @@ tasks.register('dist') {
 }
 
 tasks.test {
+  useJUnitPlatform()
+  maxParallelForks = 1
+  forkEvery = 1
+  jvmArgs = ["-DtestMode=true"]
+  def isMacOs = System.getProperty("os.name").toLowerCase().contains("mac")
+  if (isMacOs) {
+    jvmArgs += "-XstartOnFirstThread"
+  }
+  testLogging {
+    events "passed", "failed", "skipped"
+  }
+}
+
+tasks.register('runDesktopTests', Test) {
   useJUnitPlatform()
   maxParallelForks = 1
   forkEvery = 1
