@@ -1,4 +1,9 @@
+package io.github.uoyteamsix.lwjgl3;
+
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import io.github.uoyteamsix.CursorManager;
 import io.github.uoyteamsix.GameScreen;
 import io.github.uoyteamsix.UniSimGame;
@@ -8,10 +13,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StartGameTest {
-    UniSimGame game = new UniSimGame();
+    UniSimGame game;
+
     @BeforeEach
     public void setUp() {
-        game.create();
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+
+        new Lwjgl3Application(new ApplicationAdapter() {
+            @Override
+            public void create() {
+                game = new UniSimGame();
+                game.create();
+            }
+        }, config);
     }
 
     @Test
