@@ -113,14 +113,15 @@ public class AchievementTracker {
      * @param deltaTime time since last render
      */
     public void update(float deltaTime) {
+        // Reset last achievement
+        logic.setLastAchievement(null);
         for (Achievement achievement : ACHIEVEMENTS) {
             // Only check unobtained achievements
             if (!achievement.isAchieved) {
                 // If achievement obtained
                 if (achievement.achievementGet(logic, deltaTime)) {
                     achievement.isAchieved = true;
-                    System.out.println(achievement.name + "\n" + achievement.description);
-                    // TODO: achievement popup
+                    logic.setLastAchievement(achievement);
                 }
             }
         }

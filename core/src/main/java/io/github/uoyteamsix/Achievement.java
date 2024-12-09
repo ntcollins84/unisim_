@@ -6,8 +6,8 @@ package io.github.uoyteamsix;
  */
 public class Achievement {
 
-    String name;
-    String description;
+    public String name;
+    public String description;
     boolean isAchieved;
     GameTimer timer;
     int trackedVariable;

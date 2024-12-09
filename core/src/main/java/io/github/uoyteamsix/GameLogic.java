@@ -33,8 +33,13 @@ public class GameLogic {
     private float checkEventTimer;
     private float eventDurationTimer;
 
+    //Achievements
+    private final AchievementTracker achievementTracker;
+    private Achievement lastAchievement;
+
     public GameLogic(GameTimer gameTimer) {
         this.gameTimer = gameTimer;
+        achievementTracker = new AchievementTracker(this);
         nextBuildingTime = 0.0f;
         currentEvent = null;
     }
@@ -170,6 +175,9 @@ public class GameLogic {
                     }
                 }
             }
+
+            // Track achievements
+            achievementTracker.update(deltaTime);
         }
     }
 
@@ -211,6 +219,15 @@ public class GameLogic {
     public void setCurrentEvent(GameEvent currentEvent) {
         this.currentEvent = currentEvent;
     }
+
+    /**
+     * NEW METHOD
+     *
+     * @param achievement the last obtained achievement
+     */
+    protected void setLastAchievement(Achievement achievement) { this.lastAchievement = achievement; }
+
+    public Achievement getLastAchievement() { return lastAchievement; }
 
     public GameTimer getGameTimer() {
         return gameTimer;

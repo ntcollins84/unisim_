@@ -24,7 +24,6 @@ public class GameScreen extends ScreenAdapter {
     private final CameraController cameraController;
     private final GameLogic gameLogic;
     private final UiStage uiStage;
-    private final AchievementTracker achievementTracker;
     private GameMap map;
     private GameMapInput mapInput;
     private MapRenderer mapRenderer;
@@ -39,7 +38,6 @@ public class GameScreen extends ScreenAdapter {
         gameTimer = new GameTimer(300f, true);
         gameLogic = new GameLogic(gameTimer);
         uiStage = new UiStage(assetManager, gameLogic, gameTimer);
-        achievementTracker = new AchievementTracker(gameLogic);
 
         // Create an input multiplexer to chain together our input adapters.
         // Add the UI stage first, then the camera controller.
@@ -73,7 +71,6 @@ public class GameScreen extends ScreenAdapter {
         cameraController.update(deltaTime);
         gameTimer.updateTime(deltaTime);
         gameLogic.update(deltaTime);
-        achievementTracker.update(deltaTime);
         uiStage.act(deltaTime);
 
         // Render the map.
