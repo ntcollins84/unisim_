@@ -48,8 +48,8 @@ public class CameraController extends InputAdapter {
     /**
      * Updates the camera's viewport size.
      *
-     * @param width  the new viewport width
-     * @param height the new viewport height
+     * @param width  the new viewport width.
+     * @param height the new viewport height.
      */
     public void setViewportDimensions(int width, int height) {
         camera.viewportWidth = width;
