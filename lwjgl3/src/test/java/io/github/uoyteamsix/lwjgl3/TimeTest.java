@@ -37,7 +37,8 @@ public class TimeTest {
     @Test
     public void TestTimeDepletes() throws InterruptedException {
         int start_time = (int) timer.getTimeLeft();
-        TimeUnit.SECONDS.sleep(1);
+        Thread.sleep(1000);
+        //TimeUnit.SECONDS.sleep(1);
         int current_time = (int) timer.getTimeLeft();
         assertEquals(start_time - 1, current_time, "Start time should decrease by 1 each second");
     }
