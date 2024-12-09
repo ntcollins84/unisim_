@@ -23,6 +23,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Make Gradle Wrapper Executable (for non-Windows)
+        if: runner.os != 'Windows'
+        run: chmod +x ./gradlew
+
       - name: Run tests
         uses: ./gradlew runDesktopTests
           
