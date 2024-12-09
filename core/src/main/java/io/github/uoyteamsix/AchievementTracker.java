@@ -1,5 +1,6 @@
 package io.github.uoyteamsix;
 
+import io.github.uoyteamsix.map.Building;
 import io.github.uoyteamsix.map.BuildingPrefab;
 import io.github.uoyteamsix.map.GameMap;
 
@@ -92,12 +93,34 @@ public class AchievementTracker {
         new Achievement("Tryhard", "Score 100%") {
             @Override
             public boolean achievementGet(GameLogic logic, float deltaTime) {
-                // Get timer and score as percentage
+                // Get timer and satisfaction
                 GameTimer gameTimer = logic.getGameTimer();
-                int score = ((int) logic.getSatisfaction()) * 100;
+                float satisfaction = logic.getSatisfaction();
 
                 // If score at end of game is 100%
-                return gameTimer.isTimeEnded() && score == 100;
+                return gameTimer.isTimeEnded() && Math.abs(1 - satisfaction) < 0.001;
+            }
+        },
+        new Achievement("Consistency", "Keep satisfaction above 50% for 2 minutes") {
+            @Override
+            public boolean achievementGet(GameLogic logic, float deltaTime) {
+                //
+                float satisfaction = logic.getSatisfaction();
+
+                if (satisfaction >= 0.5f) {
+                    if (timer == null) {
+                        timer = new GameTimer(120, false);
+                        runTimer(deltaTime);
+                    }
+                    else if (runTimer(deltaTime)) {
+                        return true;
+                    }
+                }
+                else {
+                    timer = null;
+                }
+
+                return false;
             }
         }
     };
