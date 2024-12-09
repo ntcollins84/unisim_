@@ -3,7 +3,7 @@ name: Run tests
 on:
   push:
     branches: ['main', 'feature/*']
-  pull-request:
+  pull_request:
     branches: 'main'
 
 jobs:
@@ -24,5 +24,5 @@ jobs:
           distribution: 'temurin'
 
       - name: Run tests
-        uses: ./gradlew test
+        uses: ./gradlew runDesktopTests
           
