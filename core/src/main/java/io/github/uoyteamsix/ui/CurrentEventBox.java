@@ -66,6 +66,9 @@ public class CurrentEventBox extends Table {
                 if (currentEvent.affectsStudy()) {
                     descriptionLabel.setText("Study -");
                 }
+                else if (currentEvent.canDeleteBuilding()) {
+                    descriptionLabel.setText("Delete a building");
+                }
                 // Trick event
                 else if (currentEvent.getSatisfactionEffect() == 0) {
                     descriptionLabel.setText("");
