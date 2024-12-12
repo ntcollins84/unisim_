@@ -1,7 +1,4 @@
 /.idea/
 /.gradle/
 .DS_Store
-core/build/
-lwjgl3/build/
-headless/build/
 /build/
