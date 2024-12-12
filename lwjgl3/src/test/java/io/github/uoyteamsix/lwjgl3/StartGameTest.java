@@ -7,19 +7,19 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import io.github.uoyteamsix.CursorManager;
 import io.github.uoyteamsix.GameScreen;
 import io.github.uoyteamsix.UniSimGame;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StartGameTest {
-    UniSimGame game;
+    static UniSimGame game;
+    static Lwjgl3Application app;
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll
+    public static void setUp() {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-        new Lwjgl3Application(new ApplicationAdapter() {
+        app = new Lwjgl3Application(new ApplicationAdapter() {
             @Override
             public void create() {
                 game = new UniSimGame();
@@ -56,7 +56,6 @@ public class StartGameTest {
         assertNotNull(gameScreen.getGameTimer(), "Game Screen should have a GameTimer");
         assertNotNull(gameScreen.getGameLogic(), "Game Screen should have a GameLogic");
         assertNotNull(gameScreen.getUiStage(), "Game Screen should have a UiStage");
-
     }
 }
 
