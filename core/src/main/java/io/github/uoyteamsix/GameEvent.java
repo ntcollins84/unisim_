@@ -18,7 +18,7 @@ public class GameEvent {
             new ArrayList<Object>(Arrays.asList("Rain", -1, false, false)),
             new ArrayList<Object>(Arrays.asList("Roses", 1, false, false)),
             new ArrayList<Object>(Arrays.asList("Strike", 0, true, false)),
-            new ArrayList<Object>(Arrays.asList("Delete building", 0, false, true))
+            new ArrayList<Object>(Arrays.asList("Demolition", 0, false, true))
     };
 
     private String name;
