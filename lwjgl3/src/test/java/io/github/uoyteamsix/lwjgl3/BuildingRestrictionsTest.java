@@ -1,6 +1,7 @@
 package io.github.uoyteamsix.lwjgl3;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import io.github.uoyteamsix.GameLogic;
 import io.github.uoyteamsix.GameScreen;
 import io.github.uoyteamsix.UniSimGame;
@@ -16,6 +17,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import java.util.concurrent.CountDownLatch;
+import java.lang.Thread;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class BuildingRestrictionsTest {
@@ -23,8 +27,12 @@ public class BuildingRestrictionsTest {
     BuildingPrefab prefabRegular;
     BuildingPrefab prefabLarge;
 
+    private CountDownLatch latch;
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws InterruptedException {
+        latch = new CountDownLatch(1);
+
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
         new Lwjgl3Application(new ApplicationAdapter() {
@@ -45,8 +53,21 @@ public class BuildingRestrictionsTest {
                 List<BuildingPrefab> prefabs = map.getAvailablePrefabs();
                 prefabRegular = prefabs.get(0);
                 prefabLarge = prefabs.get(3);
+
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                        Gdx.app.exit();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start();
+
+                latch.countDown();
             }
         }, config);
+
+        latch.await();
     }
 
     @Test
