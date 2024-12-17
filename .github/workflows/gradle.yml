@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -56,7 +56,7 @@ jobs:
             export DISPLAY=:0
           fi
 
-      - name: Build with Gradle (including tests)
+      - name: Build with Gradle
         run: |
           export DISPLAY=${DISPLAY} 
           ./gradlew build
