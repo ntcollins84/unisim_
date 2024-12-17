@@ -33,8 +33,6 @@ jobs:
             sudo apt-get install -y xvfb
             Xvfb :99 &  # Start a virtual display on display 99
           elif [[ $RUNNER_OS == 'macOS' ]]; then
-            # macOS does not require Xvfb or XQuartz in GitHub Actions if you use native support
-            # Setting the environment variable DISPLAY for macOS
             echo "macOS detected, skipping XQuartz installation"
           fi
       
@@ -42,10 +40,12 @@ jobs:
       - name: Set DISPLAY environment variable
         run: |
           if [[ $RUNNER_OS == 'Linux' ]]; then
-            export DISPLAY=:99  # Set the DISPLAY to the virtual display on Ubuntu
+            export DISPLAY=:99 
           elif [[ $RUNNER_OS == 'macOS' ]]; then
-            export DISPLAY=:0  # Set the DISPLAY to the XQuartz virtual display on macOS
+            export DISPLAY=:0
           fi
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build with Gradle (including tests)
+        run: |
+          export DISPLAY=${DISPLAY} 
+          ./gradlew build
