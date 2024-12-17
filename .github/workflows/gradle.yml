@@ -25,15 +25,26 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Start XQuartz on macOS
+        run: |
+          if [[ $RUNNER_OS == 'macOS' ]]; then
+            # Check if XQuartz is installed (preinstalled on GitHub runners)
+            if ! command -v open &>/dev/null; then
+              echo "XQuartz not found, skipping start"
+            else
+              echo "Starting XQuartz"
+              open -a XQuartz  # Start the XQuartz server on macOS
+              sleep 5  # Give XQuartz some time to start
+            fi
+          fi
+
           # Install virtual display tools for macOS and Linux
-      - name: Install virtual display (Linux - Xvfb, macOS alternative)
+      - name: Install virtual display (Linux - Xvfb)
         run: |
           if [[ $RUNNER_OS == 'Linux' ]]; then
             sudo apt-get update
             sudo apt-get install -y xvfb
             Xvfb :99 &  # Start a virtual display on display 99
-          elif [[ $RUNNER_OS == 'macOS' ]]; then
-            echo "macOS detected, skipping XQuartz installation"
           fi
       
 
