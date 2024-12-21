@@ -41,3 +41,6 @@ jobs:
         with:
           name: checkstyle-report
           path: core/build/reports/checkstyle
+
+      - name: List files in build/libs
+        run: ls -R core/build/libs/
