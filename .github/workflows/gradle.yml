@@ -32,11 +32,12 @@ jobs:
       - name: Upload library JAR
         uses: actions/upload-artifact@v4
         with:
-          name: lib.jar
+          name: lib-${{matrix.os}}.jar
           path: core/build/libs/lib.jar
 
       - name: Upload checkstyle report
         uses: actions/upload-artifact@v4
+        if: startsWith(matrix.os, 'ubuntu')
         with:
           name: checkstyle-report
           path: core/build/reports/checkstyle
