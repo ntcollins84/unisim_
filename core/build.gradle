@@ -7,7 +7,7 @@ plugins {
 eclipse.project.name = appName + '-core'
 sourceSets.test.resources.srcDirs += [ rootProject.file('assets').path ]
 
-def checkstyleVersion = '10.21'
+def checkstyleVersion = '10.21.0'
 
 configurations {
   checkstyleRules
@@ -15,7 +15,7 @@ configurations {
 
 dependencies {
   checkstyleRules(
-          "com.puppycrawl.tools.checkstyle:${checkstyleVersion}") {
+          "com.puppycrawl.tools:checkstyle:${checkstyleVersion}") {
     transitive = false
   }
 }
