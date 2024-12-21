@@ -1,6 +1,7 @@
 package io.github.uoyteamsix.lwjgl3;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -10,13 +11,19 @@ import io.github.uoyteamsix.UniSimGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.lang.Thread;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StartGameTest {
     UniSimGame game;
 
+    private CountDownLatch latch;
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws InterruptedException {
+        latch = new CountDownLatch(1);
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
         new Lwjgl3Application(new ApplicationAdapter() {
@@ -24,8 +31,20 @@ public class StartGameTest {
             public void create() {
                 game = new UniSimGame();
                 game.create();
+
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                        Gdx.app.exit();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start();
+
+                latch.countDown();
             }
         }, config);
+        latch.await();
     }
 
     @Test

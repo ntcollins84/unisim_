@@ -1,6 +1,7 @@
 package io.github.uoyteamsix.lwjgl3;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import io.github.uoyteamsix.GameLogic;
@@ -11,6 +12,9 @@ import io.github.uoyteamsix.map.BuildingPrefab;
 import io.github.uoyteamsix.map.GameMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.CountDownLatch;
+import java.lang.Thread;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,8 +29,12 @@ public class BuildingPlacementTest {
     List<BuildingPrefab> prefabs;
     Method getBuilding;
 
+    private CountDownLatch latch;
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws InterruptedException {
+        latch = new CountDownLatch(1);
+
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
         new Lwjgl3Application(new ApplicationAdapter() {
@@ -51,8 +59,21 @@ public class BuildingPlacementTest {
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }
+
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                        Gdx.app.exit();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start();
+
+                latch.countDown();
             }
         }, config);
+
+        latch.await();
     }
 
     @Test
