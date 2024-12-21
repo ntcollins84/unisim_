@@ -2,9 +2,9 @@ name: Java CI wth Gradle
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -16,6 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
@@ -27,3 +28,15 @@ jobs:
 
       - name: Build with Gradle (without tests)
         run: ./gradlew build -x test
+
+      - name: Upload library JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: lib.jar
+          path: core/build/libs/lib.jar
+
+      - name: Upload checkstyle report
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report
+          path: core/build/reports/checkstyle

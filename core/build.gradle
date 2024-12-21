@@ -1,6 +1,30 @@
+
+plugins {
+  id 'checkstyle'
+}
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 eclipse.project.name = appName + '-core'
 sourceSets.test.resources.srcDirs += [ rootProject.file('assets').path ]
+
+def checkstyleVersion = '10.21'
+
+configurations {
+  checkstyleRules
+}
+
+dependencies {
+  checkstyleRules(
+          "com.puppycrawl.tools.checkstyle:${checkstyleVersion}") {
+    transitive = false
+  }
+}
+
+checkstyle {
+  toolVersion "${checkstyleVersion}"
+  config = resources.text.fromArchiveEntry(
+    configurations.checkstyleRules, 'google_checks.xml')
+}
 
 dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
