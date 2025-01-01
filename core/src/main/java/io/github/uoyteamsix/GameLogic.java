@@ -245,6 +245,8 @@ public class GameLogic {
 
     public float getNextBuildingTime() { return nextBuildingTime; }
 
+    public void setSatisfaction(float satisfaction) { this.satisfaction = satisfaction; } // For testing purposes
+
     public float getSatisfaction() { return satisfaction; }
 
     public GameEvent getCurrentEvent() { return currentEvent; }
