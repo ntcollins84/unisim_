@@ -252,4 +252,12 @@ public class GameLogic {
     public GameEvent getCurrentEvent() { return currentEvent; }
 
     public float getEventDurationTimer() { return eventDurationTimer;}
+
+    public AchievementTracker getAchievementTracker() {
+        return achievementTracker;
+    }
+
+    public void setMaximumAllowedBuildings(int maximumAllowedBuildings) {
+        this.maximumAllowedBuildings = maximumAllowedBuildings;
+    }
 }

@@ -149,4 +149,8 @@ public class AchievementTracker {
             }
         }
     }
+
+    public Achievement getAchivement(int achievementNumber){
+        return ACHIEVEMENTS[achievementNumber];
+    }
 }

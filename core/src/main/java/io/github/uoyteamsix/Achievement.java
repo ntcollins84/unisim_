@@ -45,4 +45,8 @@ public class Achievement {
         timer.updateTime(deltaTime);
         return timer.isTimeEnded();
     }
+    
+    public boolean getIsAchieved() {
+        return isAchieved;
+    }
 }
