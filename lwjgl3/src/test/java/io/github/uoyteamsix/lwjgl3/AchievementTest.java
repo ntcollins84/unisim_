@@ -10,6 +10,7 @@ import io.github.uoyteamsix.map.GameMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -23,6 +24,7 @@ public class AchievementTest {
     GameMap map;
     List<BuildingPrefab> prefabs;
     Method getBuilding;
+    int Y_COORDINATE = 20;
 
     private CountDownLatch latch;
 
@@ -37,8 +39,16 @@ public class AchievementTest {
                 game = new UniSimGame();
                 game.create();
                 screen = game.getGameScreen();
-                achievements = screen.getGameLogic().getAchievementTracker();
-                map = screen.getGameLogic().getGameMap();
+                GameLogic logic = screen.getGameLogic();
+                try {
+                    Method method = GameScreen.class.getDeclaredMethod("initializeMap");
+                    method.setAccessible(true);
+                    method.invoke(screen);
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+                achievements = logic.getAchievementTracker();
+                map = logic.getGameMap();
                 prefabs = map.getAvailablePrefabs();
                 screen.getGameLogic().setMaximumAllowedBuildings(10); // Make sure the tests can place more than one building
                 try {
@@ -79,7 +89,8 @@ public class AchievementTest {
     @Test
     public void TestCampusStarter(){
         BuildingPrefab prefab = prefabs.get(0);
-        map.placeBuilding(prefab, 20, 40);
+        map.placeBuilding(prefab, 20, Y_COORDINATE);
+        achievements.update(0.1f);
         Achievement campusStarter = achievements.getAchivement(0);
         assertTrue(campusStarter.getIsAchieved(), "Should have the campus starter achievement after placing one" +
                 " building");
@@ -92,8 +103,9 @@ public class AchievementTest {
     public void TestMasterOfDiversity(){
         for (int i = 0; i < 5; i++) {
             BuildingPrefab prefab = prefabs.get(i);
-            map.placeBuilding(prefab, i * 5, 40);
+            map.placeBuilding(prefab, i * 5, Y_COORDINATE);
         }
+        achievements.update(0.1f);
         Achievement masterOfDiversity = achievements.getAchivement(1);
         assertTrue(masterOfDiversity.getIsAchieved(), "Should have the master of diversity achievement after " +
                 "placing one of each type of building");
@@ -106,9 +118,12 @@ public class AchievementTest {
     @Test
     public void TestQuickHands(){
         BuildingPrefab prefab = prefabs.get(0);
+        achievements.update(0.1f);
         for (int i = 0; i < 3; i++) {
-            map.placeBuilding(prefab, i * 5, 40);
+            map.placeBuilding(prefab, i * 5, Y_COORDINATE);
+            achievements.update(0.1f);
         }
+        achievements.update(0.1f);
         Achievement quickHands = achievements.getAchivement(2);
         assertTrue(quickHands.getIsAchieved(), "Should have the quick hands achievement after 3 buildings in" +
                 " under 10 seconds");
@@ -121,8 +136,9 @@ public class AchievementTest {
     public void TestRisingArchitect(){
         BuildingPrefab prefab = prefabs.get(0);
         for (int i = 0; i < 7; i++) {
-            map.placeBuilding(prefab, i * 5, 40);
+            map.placeBuilding(prefab, i * 5, Y_COORDINATE);
         }
+        achievements.update(0.1f);
         Achievement risingArchitect = achievements.getAchivement(3);
         assertTrue(risingArchitect.getIsAchieved(), "Should have the rising architect achievement after placing " +
                 "7 buildings on the map");
@@ -134,13 +150,15 @@ public class AchievementTest {
     @Test
     public void TestTryHard(){
         GameLogic logic = screen.getGameLogic();
-        logic.setSatisfaction(1.0f);
+        achievements.update(0.1f);
         GameTimer timer = screen.getGameTimer();
         timer.updateTime(300f);
+        logic.setSatisfaction(1);
         timer.isTimeEnded();
+        achievements.update(0.1f);
         Achievement tryHard = achievements.getAchivement(4);
         assertTrue(tryHard.getIsAchieved(), "Should have the try hard achievement if you end the game with 100%" +
-                "satisfaction");
+                " satisfaction");
     }
 
     /**
@@ -156,6 +174,7 @@ public class AchievementTest {
                 logic.setSatisfaction(1.0f);
             }
         }
+        achievements.update(0.1f);
         Achievement consistency = achievements.getAchivement(5);
         assertTrue(consistency.getIsAchieved(), "Should have the consistency achievement when having satisfaction" +
                 "above 50% for over 2 minutes");
